@@ -1,1 +1,45 @@
+# __pycache__ 파일들
+__pycache__/
+*.py[cod]
+
+# 환경 설정
+.env
+*.env
+
+# 가상환경 폴더 (예: venv)
+venv/
 .venv/
+
+# Jupyter나 IPython 캐시
+.ipynb_checkpoints/
+
+# VSCode 설정 (선택적으로 무시 가능)
+.vscode/
+
+# OS/에디터 캐시
+.DS_Store
+Thumbs.db
+
+# Python 관련 빌드
+*.egg-info/
+*.egg
+dist/
+build/
+
+# 로그나 런 타임 아티팩트
+*.log
+
+# MLflow 트래킹 디렉토리
+mlruns/
+
+# Node.js 관련 (frontend 폴더가 React인 경우)
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+
+# Docker 관련
+*.pid
+*.sock
+
+# Node.js 의존성 폴더
+frontend/node_modules/
