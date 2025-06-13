@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3.js 3D 지구와 광물 시각화</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+            margin: 0;
+            background: #f5f5f5;
+        }
+        #globe-container {
+            flex: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e0e7ef;
+        }
+        #minerals-list {
+            flex: 1;
+            padding: 40px 20px;
+            background: #fff;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.05);
+        }
+        .mineral-btn {
+            display: block;
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 15px;
+            font-size: 18px;
+            background: #4f8ef7;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .mineral-btn:hover {
+            background: #3466b3;
+        }
+        .tooltip {
+            position: absolute;
+            pointer-events: none;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <div id="globe-container">
+        <svg id="globe" width="600" height="600"></svg>
+        <div class="tooltip" id="tooltip"></div>
+    </div>
+    <div id="minerals-list">
+        <h2>광물 종류</h2>
+        <div id="minerals"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
