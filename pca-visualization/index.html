@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCA 시각화</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        .slider-container {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCA 시각화</h1>
+        <div class="controls">
+            <div class="slider-container">
+                <label for="variance">설명된 분산 비율:</label>
+                <input type="range" id="variance" min="0" max="100" value="95" step="1">
+                <span id="variance-value">95%</span>
+            </div>
+        </div>
+        <div id="visualization"></div>
+    </div>
+    <script src="pca.js"></script>
+</body>
+</html> 
