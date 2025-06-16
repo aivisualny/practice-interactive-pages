@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNN 구조 시각화</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>CNN (Convolutional Neural Network) 구조 시각화</h1>
+        <div class="cnn-container">
+            <div class="layer input-layer">
+                <h3>입력 레이어</h3>
+                <div class="feature-map">28x28x1</div>
+            </div>
+            <div class="layer conv-layer">
+                <h3>합성곱 레이어 1</h3>
+                <div class="feature-map">26x26x32</div>
+                <div class="kernel">3x3 커널</div>
+            </div>
+            <div class="layer pool-layer">
+                <h3>풀링 레이어 1</h3>
+                <div class="feature-map">13x13x32</div>
+                <div class="pool-info">Max Pooling 2x2</div>
+            </div>
+            <div class="layer conv-layer">
+                <h3>합성곱 레이어 2</h3>
+                <div class="feature-map">11x11x64</div>
+                <div class="kernel">3x3 커널</div>
+            </div>
+            <div class="layer pool-layer">
+                <h3>풀링 레이어 2</h3>
+                <div class="feature-map">5x5x64</div>
+                <div class="pool-info">Max Pooling 2x2</div>
+            </div>
+            <div class="layer fc-layer">
+                <h3>완전연결 레이어</h3>
+                <div class="neurons">128 뉴런</div>
+            </div>
+            <div class="layer output-layer">
+                <h3>출력 레이어</h3>
+                <div class="neurons">10 뉴런</div>
+            </div>
+        </div>
+        <div class="description">
+            <h2>CNN 구조 설명</h2>
+            <p>위의 시각화는 MNIST 데이터셋을 위한 기본적인 CNN 구조를 보여줍니다.</p>
+            <ul>
+                <li>입력: 28x28 픽셀의 흑백 이미지</li>
+                <li>합성곱 레이어: 3x3 커널을 사용하여 특징 추출</li>
+                <li>풀링 레이어: 2x2 윈도우로 최대값 추출</li>
+                <li>완전연결 레이어: 특징을 분류하기 위한 뉴런</li>
+                <li>출력: 10개의 클래스 (0-9 숫자)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html> 
