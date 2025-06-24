@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>신경망 학습 과정의 이해</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>신경망 학습 과정 이해하기</h1>
+        
+        <div class="learning-steps">
+            <div class="step" id="step1">
+                <h2>1. 로지스틱 회귀로 시작하기</h2>
+                <div class="step-content">
+                    <div class="visualization-area">
+                        <div class="single-neuron">
+                            <div class="neuron-inputs">
+                                <div class="input">x₁</div>
+                                <div class="input">x₂</div>
+                                <div class="input">x₃</div>
+                            </div>
+                            <div class="neuron">σ</div>
+                            <div class="output">ŷ</div>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <p>하나의 뉴런으로 시작하여 이미지 분류의 기초를 배웁니다:</p>
+                        <ul>
+                            <li>입력(x): 이미지의 픽셀 값들</li>
+                            <li>가중치(w): 각 픽셀의 중요도</li>
+                            <li>활성화 함수(σ): 시그모이드 함수</li>
+                            <li>출력(ŷ): 고양이일 확률 (0~1)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step" id="step2">
+                <h2>2. 순전파 (Forward Propagation)</h2>
+                <div class="step-content">
+                    <div class="visualization-area">
+                        <div class="forward-prop">
+                            <div class="layer input-layer">
+                                <div class="neuron">x₁</div>
+                                <div class="neuron">x₂</div>
+                                <div class="neuron">x₃</div>
+                            </div>
+                            <div class="arrows forward">→</div>
+                            <div class="layer hidden-layer">
+                                <div class="neuron">h₁</div>
+                                <div class="neuron">h₂</div>
+                            </div>
+                            <div class="arrows forward">→</div>
+                            <div class="layer output-layer">
+                                <div class="neuron">ŷ</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <p>데이터가 신경망을 통과하는 과정:</p>
+                        <ul>
+                            <li>입력층에서 데이터 받기</li>
+                            <li>은닉층에서 특징 추출</li>
+                            <li>출력층에서 예측값 계산</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step" id="step3">
+                <h2>3. 역전파 (Backpropagation)</h2>
+                <div class="step-content">
+                    <div class="visualization-area">
+                        <div class="back-prop">
+                            <div class="layer output-layer">
+                                <div class="neuron">error</div>
+                            </div>
+                            <div class="arrows backward">←</div>
+                            <div class="layer hidden-layer">
+                                <div class="neuron">∂E/∂h₁</div>
+                                <div class="neuron">∂E/∂h₂</div>
+                            </div>
+                            <div class="arrows backward">←</div>
+                            <div class="layer input-layer">
+                                <div class="neuron">∂E/∂w₁</div>
+                                <div class="neuron">∂E/∂w₂</div>
+                                <div class="neuron">∂E/∂w₃</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <p>오차를 역으로 전파하여 가중치 업데이트:</p>
+                        <ul>
+                            <li>예측값과 실제값의 차이 계산</li>
+                            <li>각 층의 가중치가 오차에 미친 영향 계산</li>
+                            <li>경사하강법으로 가중치 최적화</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step" id="step4">
+                <h2>4. 벡터화 (Vectorization)</h2>
+                <div class="step-content">
+                    <div class="visualization-area">
+                        <div class="vectorization">
+                            <div class="matrix">
+                                <pre>
+X = [x₁ x₂ x₃]
+W = [w₁]
+    [w₂]
+    [w₃]
+                                </pre>
+                            </div>
+                            <div class="operation">→</div>
+                            <div class="result">
+                                <pre>
+Z = X·W
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <p>행렬 연산을 통한 계산 최적화:</p>
+                        <ul>
+                            <li>NumPy를 활용한 빠른 연산</li>
+                            <li>병렬 처리 활용</li>
+                            <li>메모리 효율적 사용</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="implementation-example">
+            <h2>Python 구현 예제</h2>
+            <pre><code>
+import numpy as np
+
+class SimpleNeuralNetwork:
+    def __init__(self):
+        self.weights = np.random.randn(3, 1)
+        self.bias = 0
+        
+    def sigmoid(self, x):
+        return 1 / (1 + np.exp(-x))
+    
+    def forward(self, X):
+        return self.sigmoid(np.dot(X, self.weights) + self.bias)
+    
+    def compute_cost(self, X, Y):
+        m = X.shape[0]
+        A = self.forward(X)
+        cost = -1/m * np.sum(Y*np.log(A) + (1-Y)*np.log(1-A))
+        return cost
+            </code></pre>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 

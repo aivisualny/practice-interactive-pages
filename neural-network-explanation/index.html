@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>신경망의 이해 - 고양이 인식 예제</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>신경망 이해하기: 고양이 인식 예제</h1>
+        <div class="neural-network-container">
+            <div class="layer input-layer">
+                <h3>입력층</h3>
+                <div class="neurons">
+                    <!-- 입력 뉴런들은 JavaScript로 동적 생성됩니다 -->
+                </div>
+                <p class="layer-explanation">이미지의 픽셀 정보를 받아들이는 층</p>
+            </div>
+            <div class="layer hidden-layer">
+                <h3>은닉층</h3>
+                <div class="neurons">
+                    <!-- 은닉층 뉴런들은 JavaScript로 동적 생성됩니다 -->
+                </div>
+                <div class="feature-explanations">
+                    <p>귀 모양 패턴</p>
+                    <p>수염 패턴</p>
+                    <p>동그란 얼굴 패턴</p>
+                </div>
+            </div>
+            <div class="layer output-layer">
+                <h3>출력층</h3>
+                <div class="neurons">
+                    <!-- 출력 뉴런은 JavaScript로 동적 생성됩니다 -->
+                </div>
+                <p class="layer-explanation">고양이일 확률</p>
+            </div>
+        </div>
+        <div class="explanation-text">
+            <h2>신경망은 어떻게 작동하나요?</h2>
+            <p>신경망의 각 뉴런은 하나의 미니 의사결정자처럼 작동합니다. 고양이 사진을 인식하는 과정을 예로 들어보겠습니다:</p>
+            <ol>
+                <li><strong>입력층:</strong> 사진의 픽셀 정보를 받아들입니다.</li>
+                <li><strong>은닉층:</strong> 각 뉴런이 특정 패턴(귀, 수염, 얼굴 모양 등)을 찾아냅니다.</li>
+                <li><strong>출력층:</strong> 발견된 패턴들을 종합하여 "이것이 고양이인가?"에 대한 최종 확률을 계산합니다.</li>
+            </ol>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 

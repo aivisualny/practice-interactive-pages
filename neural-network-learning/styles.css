@@ -1,0 +1,194 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: #2c3e50;
+}
+
+.learning-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.step {
+    background-color: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.step:hover {
+    transform: translateY(-5px);
+}
+
+.step h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+}
+
+.step-content {
+    display: flex;
+    gap: 2rem;
+}
+
+.visualization-area {
+    flex: 1;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.explanation {
+    flex: 1;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.explanation ul {
+    margin-left: 1.5rem;
+    margin-top: 1rem;
+}
+
+.explanation li {
+    margin-bottom: 0.5rem;
+}
+
+/* 단일 뉴런 스타일 */
+.single-neuron {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.neuron-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input, .neuron, .output {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.input {
+    background-color: #3498db;
+    color: white;
+}
+
+.neuron {
+    background-color: #e74c3c;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.output {
+    background-color: #2ecc71;
+    color: white;
+}
+
+/* 순전파/역전파 시각화 스타일 */
+.forward-prop, .back-prop {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.layer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.arrows {
+    font-size: 2rem;
+    color: #3498db;
+}
+
+.arrows.backward {
+    color: #e74c3c;
+}
+
+/* 벡터화 시각화 스타일 */
+.vectorization {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.matrix pre {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 5px;
+    font-family: 'Courier New', monospace;
+}
+
+.operation {
+    font-size: 2rem;
+    color: #3498db;
+}
+
+/* 코드 예제 스타일 */
+.implementation-example {
+    margin-top: 3rem;
+    background-color: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.implementation-example h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.implementation-example pre {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .step-content {
+        flex-direction: column;
+    }
+    
+    .visualization-area {
+        min-height: 150px;
+    }
+} 
