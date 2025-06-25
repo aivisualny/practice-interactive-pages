@@ -1,0 +1,403 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: white;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* 탭 네비게이션 */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    margin: 0 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.tab-btn.active {
+    background: rgba(255,255,255,0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* 탭 콘텐츠 */
+.tab-content {
+    display: none;
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: fadeIn 0.5s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 개요 섹션 */
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.gan-card {
+    background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.gan-card:hover {
+    transform: translateY(-5px);
+}
+
+.gan-card h3 {
+    color: #495057;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.gan-visualization {
+    width: 100%;
+    height: 200px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #dee2e6;
+}
+
+.gan-visualization canvas {
+    border-radius: 8px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.gan-card p {
+    color: #6c757d;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.gan-card ul {
+    list-style: none;
+    text-align: left;
+}
+
+.gan-card li {
+    padding: 5px 0;
+    color: #495057;
+    position: relative;
+    padding-left: 20px;
+}
+
+.gan-card li:before {
+    content: "•";
+    color: #667eea;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* 기술 상세 섹션 */
+.tech-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.visualization-container {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+}
+
+.visualization-container canvas {
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #dee2e6;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.controls button {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s ease;
+}
+
+.controls button:hover {
+    background: #5a6fd8;
+}
+
+.controls input[type="range"] {
+    width: 100px;
+}
+
+.controls label {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.explanation h3 {
+    color: #495057;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.explanation ul {
+    list-style: none;
+    margin-bottom: 25px;
+}
+
+.explanation li {
+    padding: 8px 0;
+    color: #495057;
+    line-height: 1.6;
+    position: relative;
+    padding-left: 25px;
+}
+
+.explanation li:before {
+    content: "→";
+    color: #667eea;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* 아키텍처 다이어그램 */
+.architecture-diagram {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.arch-component {
+    background: #667eea;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.arch-arrow {
+    color: #667eea;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* 비교 테이블 */
+.comparison-table {
+    margin-bottom: 40px;
+}
+
+.comparison-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.comparison-table th {
+    background: #667eea;
+    color: white;
+    font-weight: 600;
+}
+
+.comparison-table tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.comparison-table tr:hover {
+    background: #e9ecef;
+}
+
+/* 인터랙티브 비교 */
+.interactive-comparison {
+    margin-top: 40px;
+}
+
+.interactive-comparison h3 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #495057;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.comparison-item {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+}
+
+.comparison-item h4 {
+    color: #495057;
+    margin-bottom: 15px;
+}
+
+.comparison-item canvas {
+    width: 100%;
+    height: 200px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+}
+
+.comparison-controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.comparison-controls button {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.comparison-controls button:hover {
+    background: #5a6fd8;
+    transform: translateY(-2px);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .tabs {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .tab-btn {
+        margin: 0;
+    }
+    
+    .tech-detail {
+        grid-template-columns: 1fr;
+    }
+    
+    .overview-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .comparison-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .architecture-diagram {
+        flex-direction: column;
+        text-align: center;
+    }
+} 

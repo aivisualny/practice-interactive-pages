@@ -1,0 +1,586 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --background-color: #f8f9fa;
+    --text-color: #212529;
+    --card-background: #ffffff;
+    --border-color: #dee2e6;
+    --shadow: 0 4px 6px rgba(0,0,0,0.1);
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --info-color: #17a2b8;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+header h1 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+header p {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+    color: var(--text-color);
+}
+
+/* 성능 비교 섹션 */
+#performance-comparison {
+    margin-bottom: 4rem;
+}
+
+.performance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.performance-card {
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary-color);
+}
+
+.performance-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.metric:last-child {
+    border-bottom: none;
+}
+
+.model-name {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.score {
+    color: var(--secondary-color);
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+.rank {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* 모델 카드 스타일 */
+.model-card {
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.model-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.model-card.detailed {
+    border-left: 6px solid var(--primary-color);
+}
+
+.model-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.model-header h3 {
+    font-size: 1.8rem;
+    margin: 0;
+    color: var(--primary-color);
+    flex: 1;
+    min-width: 300px;
+}
+
+.model-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.tag {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tag.architecture {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.tag.type {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.tag.year {
+    background-color: #e8f5e8;
+    color: #388e3c;
+}
+
+/* 모델 콘텐츠 섹션 */
+.model-content {
+    display: grid;
+    gap: 2rem;
+}
+
+.architecture-section,
+.performance-section,
+.pros-cons,
+.applications {
+    background: #fafafa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--info-color);
+}
+
+.pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    border-left: none;
+    background: none;
+    padding: 0;
+}
+
+.pros {
+    background: #f8fff8;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--success-color);
+}
+
+.cons {
+    background: #fff8f8;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--danger-color);
+}
+
+.pros h4,
+.cons h4 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.pros h4 {
+    color: var(--success-color);
+}
+
+.cons h4 {
+    color: var(--danger-color);
+}
+
+h4 {
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+h5 {
+    font-size: 1.1rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+ul {
+    padding-left: 20px;
+    color: #555;
+    margin: 0;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+
+strong {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+/* 비교 분할 레이아웃 */
+.comparison-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.comparison-left,
+.comparison-right {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.comparison-left {
+    border-left-color: var(--success-color);
+}
+
+.comparison-right {
+    border-left-color: var(--warning-color);
+}
+
+/* 기술 비교 테이블 */
+.comparison-table {
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 3rem;
+    overflow-x: auto;
+}
+
+.comparison-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    min-width: 800px;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.comparison-table th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    position: sticky;
+    top: 0;
+}
+
+.comparison-table th:first-child {
+    border-top-left-radius: 8px;
+    min-width: 120px;
+}
+
+.comparison-table th:last-child {
+    border-top-right-radius: 8px;
+}
+
+.comparison-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.comparison-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.comparison-table td:first-child {
+    font-weight: 600;
+    background-color: #f8f9fa;
+}
+
+/* 최신 동향 섹션 */
+.trends-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.trend-card {
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--warning-color);
+}
+
+.trend-card h4 {
+    color: var(--warning-color);
+    font-size: 1.3rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+/* 기존 스타일 유지 */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--card-background);
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: 700;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+table a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+table a:hover {
+    text-decoration: underline;
+}
+
+.video-placeholder {
+    width: 100%;
+    height: 200px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    color: var(--secondary-color);
+    font-style: italic;
+}
+
+.btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 1rem 0;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .performance-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .model-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .model-header h3 {
+        min-width: auto;
+        font-size: 1.5rem;
+    }
+    
+    .pros-cons {
+        grid-template-columns: 1fr;
+    }
+    
+    .trends-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .comparison-table {
+        padding: 1rem;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+        padding: 0.8rem;
+        font-size: 0.8rem;
+    }
+    
+    .comparison-split {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .model-card {
+        padding: 1.5rem;
+    }
+    
+    .performance-card {
+        padding: 1rem;
+    }
+    
+    .metric {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .comparison-table table {
+        min-width: 600px;
+    }
+}
+
+/* 요약 테이블 스타일 */
+.summary-table-container {
+    overflow-x: auto;
+    margin: 2rem 0;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 0.9rem;
+    min-width: 1200px;
+}
+
+.summary-table th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1rem 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #e1e5e9;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.summary-table td {
+    padding: 1rem 0.75rem;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+    line-height: 1.5;
+}
+
+.summary-table tr:nth-child(even) {
+    background-color: #fafbfc;
+}
+
+.summary-table tr:hover {
+    background-color: #f0f7ff;
+    transition: background-color 0.2s ease;
+}
+
+.summary-table strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.summary-table br {
+    margin: 0.25rem 0;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+    .summary-table {
+        font-size: 0.8rem;
+        min-width: 800px;
+    }
+    
+    .summary-table th,
+    .summary-table td {
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+/* 푸터 스타일 */
+footer {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    margin-top: 4rem;
+    border-radius: 12px;
+}
+
+footer p {
+    color: #2c3e50;
+    font-size: 0.9rem;
+    margin: 0;
+} 
