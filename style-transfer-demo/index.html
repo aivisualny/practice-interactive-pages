@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style Transfer 체험하기</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>AI 스타일 변환 (Style Transfer)</h1>
+        <p class="description">콘텐츠 이미지와 스타일 이미지를 선택하여 새로운 예술 작품을 만들어보세요!</p>
+
+        <div class="style-transfer-app">
+            <div class="image-selection-area">
+                <!-- 콘텐츠 이미지 선택 -->
+                <div class="image-box" id="content-image-box">
+                    <h2>콘텐츠 이미지</h2>
+                    <p>스타일을 입힐 사진을 업로드하세요.</p>
+                    <img id="content-image-preview" src="#" alt="콘텐츠 이미지 미리보기" class="image-preview">
+                    <input type="file" id="content-image-upload" accept="image/*">
+                    <button class="upload-btn" onclick="document.getElementById('content-image-upload').click()">이미지 업로드</button>
+                </div>
+
+                <!-- 스타일 이미지 선택 -->
+                <div class="image-box" id="style-image-box">
+                    <h2>스타일 이미지</h2>
+                    <p>적용하고 싶은 화풍을 선택하세요.</p>
+                    <div class="style-image-gallery">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1024px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" alt="별이 빛나는 밤" class="style-image" data-style="starry-night" crossorigin="anonymous">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_Scream.jpg/800px-The_Scream.jpg" alt="절규" class="style-image" data-style="the-scream" crossorigin="anonymous">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tsunami_by_hokusai_19th_century.jpg/1024px-Tsunami_by_hokusai_19th_century.jpg" alt="파도" class="style-image" data-style="the-wave" crossorigin="anonymous">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg/1024px-Vassily_Kandinsky%2C_1913_-_Composition_7.jpg" alt="구성 VII" class="style-image" data-style="composition-vii" crossorigin="anonymous">
+                    </div>
+                    <img id="style-image-preview" src="#" alt="스타일 이미지 미리보기" class="image-preview">
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="transfer-button">스타일 변환 시작!</button>
+            </div>
+
+            <!-- 결과 이미지 -->
+            <div class="result-area">
+                <h2>변환 결과</h2>
+                <div id="result-image-container">
+                    <div class="placeholder">결과가 여기에 표시됩니다.</div>
+                    <img id="result-image" src="#" alt="변환된 이미지">
+                    <div class="loader" id="loader"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="explanation-box">
+            <h2>스타일 변환은 어떻게 작동하나요?</h2>
+            <p>스타일 변환은 <strong>CNN(합성곱 신경망)</strong>을 활용한 기술입니다. CNN은 이미지의 특징을 계층적으로 학습하는데, 이 원리를 응용한 것입니다.</p>
+            <ol>
+                <li><strong>콘텐츠 특징 추출:</strong> CNN의 깊은 층(Deep Layer)에서 이미지의 전반적인 구조와 객체 등 '콘텐츠' 정보를 추출합니다.</li>
+                <li><strong>스타일 특징 추출:</strong> CNN의 얕은 층(Shallow Layer)들에서 이미지의 질감, 색감, 패턴 등 '스타일' 정보를 추출합니다.</li>
+                <li><strong>이미지 최적화:</strong> 새로운 이미지를 생성하면서, 이 이미지가 원본의 '콘텐츠' 정보와 스타일 이미지의 '스타일' 정보를 모두 갖도록 최적화 과정을 반복합니다.</li>
+            </ol>
+            <p>이 과정을 통해 원본 사진의 형태는 유지하면서도, 유명 화가의 독특한 화풍을 입힌 것 같은 창의적인 결과물을 얻을 수 있습니다.</p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
