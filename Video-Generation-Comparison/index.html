@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비디오 생성 모델 심층 비교 분석</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>비디오 생성 모델 심층 비교 분석</h1>
+            <p>W.A.LT, MAGVIT, StyleSV, Make-A-Video, CogVideo 등 최신 모델들의 아키텍처, 성능, 특징을 종합적으로 분석합니다</p>
+        </header>
+
+        <section id="performance-comparison">
+            <h2>성능 비교 분석</h2>
+            <div class="performance-grid">
+                <div class="performance-card">
+                    <h3>UCF-101 클래스 조건부 생성</h3>
+                    <div class="metric">
+                        <span class="model-name">W.A.LT-XL</span>
+                        <span class="score">FVD: 36±2</span>
+                        <span class="rank">🥇 1위</span>
+                    </div>
+                    <div class="metric">
+                        <span class="model-name">W.A.LT-L</span>
+                        <span class="score">FVD: 46±2</span>
+                        <span class="rank">🥈 2위</span>
+                    </div>
+                    <div class="metric">
+                        <span class="model-name">MAGVIT-v2</span>
+                        <span class="score">FVD: 58±2</span>
+                        <span class="rank">🥉 3위</span>
+                    </div>
+                </div>
+
+                <div class="performance-card">
+                    <h3>Kinetics-600 프레임 예측</h3>
+                    <div class="metric">
+                        <span class="model-name">W.A.LT-L</span>
+                        <span class="score">FVD: 3.3</span>
+                        <span class="rank">🥇 1위</span>
+                    </div>
+                    <div class="metric">
+                        <span class="model-name">MAGVIT</span>
+                        <span class="score">FVD: 9.9</span>
+                        <span class="rank">🥈 2위</span>
+                    </div>
+                </div>
+
+                <div class="performance-card">
+                    <h3>UCF-101 Inception Score</h3>
+                    <div class="metric">
+                        <span class="model-name">TGANv2</span>
+                        <span class="score">IS: 28.87</span>
+                        <span class="rank">🥇 1위</span>
+                    </div>
+                    <div class="metric">
+                        <span class="model-name">TGAN-F</span>
+                        <span class="score">IS: 24~25</span>
+                        <span class="rank">🥈 2위</span>
+                    </div>
+                    <div class="metric">
+                        <span class="model-name">TGAN</span>
+                        <span class="score">IS: ~11</span>
+                        <span class="rank">🥉 3위</span>
+                    </div>
+                </div>
+
+                <div class="performance-card">
+                    <h3>TrailerFaces 얼굴 영상</h3>
+                    <div class="metric">
+                        <span class="model-name">PG-SWGAN-3D</span>
+                        <span class="score">선호도 54%</span>
+                        <span class="rank">🥇 우수</span>
+                    </div>
+                    <div class="metric">
+                        <span class="model-name">PG-WGAN-3D</span>
+                        <span class="score">선호도 46%</span>
+                        <span class="rank">🥈 경쟁</span>
+                    </div>
+                </div>
+
+                <div class="performance-card">
+                    <h3>Sky Time-lapse (StyleSV)</h3>
+                    <div class="metric">
+                        <span class="model-name">StyleSV</span>
+                        <span class="score">FVD: 221.5</span>
+                        <span class="rank">🥇 개선</span>
+                    </div>
+                    <div class="metric">
+                        <span class="model-name">StyleGAN-V</span>
+                        <span class="score">FVD: 460.6</span>
+                        <span class="rank">🥈 이전 SOTA</span>
+                    </div>
+                </div>
+
+                <div class="performance-card">
+                    <h3>텍스트-비디오 생성</h3>
+                    <div class="metric">
+                        <span class="model-name">Make-A-Video</span>
+                        <span class="score">80% 선호도</span>
+                        <span class="rank">🥇 우수</span>
+                    </div>
+                    <div class="metric">
+                        <span class="model-name">CogVideo</span>
+                        <span class="score">20% 선호도</span>
+                        <span class="rank">🥈 경쟁</span>
+                    </div>
+                </div>
+
+                <div class="performance-card">
+                    <h3>LSUN 침실 이미지 생성</h3>
+                    <div class="metric">
+                        <span class="model-name">PG-SWGAN</span>
+                        <span class="score">FID: 8.0</span>
+                        <span class="rank">🥇 개선</span>
+                    </div>
+                    <div class="metric">
+                        <span class="model-name">PG-WGAN</span>
+                        <span class="score">FID: 8.4</span>
+                        <span class="rank">🥈 이전</span>
+                    </div>
+                </div>
+
+                <div class="performance-card">
+                    <h3>COCO 이미지 생성 (Imagen)</h3>
+                    <div class="metric">
+                        <span class="model-name">Imagen</span>
+                        <span class="score">FID: 7.27</span>
+                        <span class="rank">🥇 우수</span>
+                    </div>
+                    <div class="metric">
+                        <span class="model-name">영상화</span>
+                        <span class="score">FVD 매우 나쁨</span>
+                        <span class="rank">❌ 부적합</span>
+                    </div>
+                </div>
+
+                <div class="performance-card">
+                    <h3>추론 속도 비교</h3>
+                    <div class="metric">
+                        <span class="model-name">MAGVIT</span>
+                        <span class="score">100× 빠름</span>
+                        <span class="rank">🥇 최고</span>
+                    </div>
+                    <div class="metric">
+                        <span class="model-name">StyleSV</span>
+                        <span class="score">매우 빠름</span>
+                        <span class="rank">🥈 우수</span>
+                    </div>
+                    <div class="metric">
+                        <span class="model-name">W.A.LT</span>
+                        <span class="score">50-step DDIM</span>
+                        <span class="rank">🥉 보통</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="model-details">
+            <h2>모델별 상세 분석</h2>
+            
+            <div class="model-card detailed">
+                <div class="model-header">
+                    <h3>W.A.LT (Window Attention Latent Transformer)</h3>
+                    <div class="model-tags">
+                        <span class="tag architecture">Transformer</span>
+                        <span class="tag type">확산 모델</span>
+                        <span class="tag year">2023</span>
+                    </div>
+                </div>
+
+                <div class="model-content">
+                    <div class="architecture-section">
+                        <h4>🔧 핵심 구조 및 기술</h4>
+                        <ul>
+                            <li><strong>Transformer 기반 잠재 공간 비디오 확산 모델</strong> - 영상과 이미지를 모두 인코딩하는 공통 잠재 공간</li>
+                            <li><strong>윈도우 제한 자기어텐션</strong> - 메모리 효율적인 고해상도 영상 생성</li>
+                            <li><strong>U-Net 대신 교차적 공간-시간 윈도우 어텐션 Transformer</strong> 사용</li>
+                            <li><strong>통합 VQ-인코더</strong> - 이미지/비디오 차원 축소로 효율성 증대</li>
+                            <li><strong>모델 규모</strong>: W.A.LT-L (3억 1천만 파라미터), W.A.LT-XL (4억 6천만 파라미터)</li>
+                        </ul>
+                    </div>
+
+                    <div class="performance-section">
+                        <h4>📊 생성 품질 및 평가</h4>
+                        <ul>
+                            <li><strong>UCF-101</strong>: W.A.LT-XL FVD 36±2 (이전 최고 MAGVIT-v2 58±2 대비 크게 개선)</li>
+                            <li><strong>Kinetics-600 프레임예측</strong>: W.A.LT-L FVD 3.3 (최저 기록)</li>
+                            <li><strong>ImageNet 256×256</strong>: FID 2.56, IS 215.1 (VDM++과 동급, 파라미터는 1/4)</li>
+                        </ul>
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ 장점</h4>
+                            <ul>
+                                <li>Transformer의 병렬성과 표현력을 영상 생성에 도입</li>
+                                <li>클래스 조건부 및 무조건 생성 모두에서 고품질 결과</li>
+                                <li>128×128부터 3단계 점진 업샘플링으로 고해상도 영상 생성</li>
+                                <li>Classifier-free guidance 없이도 안정적인 품질</li>
+                                <li>이미지와 비디오 공동 학습으로 정적 묘사와 동역학 학습 모두 활용</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ 단점</h4>
+                            <ul>
+                                <li>Conv U-Net 대비 높은 메모리 요구량과 훈련 비용</li>
+                                <li>윈도우 크기로 인한 국부적 상호작용 한계</li>
+                                <li>GAN 대비 느린 추론 속도 (50 step 샘플링 필요)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="applications">
+                        <h4>🎯 조건 및 활용 환경</h4>
+                        <ul>
+                            <li><strong>W.A.LT-XL</strong>: 클래스 레이블 조건에서 최고 성능</li>
+                            <li><strong>W.A.LT-L</strong>: 무조건 생성, 프레임 조건부 예측 등 다양한 설정</li>
+                            <li><strong>텍스트 조건</strong>: 별도 파이프라인으로 128×128 생성 + 영상 초해상도</li>
+                            <li>클래스, 텍스트, 이전 프레임 등 모든 조건에서 강건한 성능</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="model-card detailed">
+                <div class="model-header">
+                    <h3>MAGVIT (Masked Generative Video Transformer)</h3>
+                    <div class="model-tags">
+                        <span class="tag architecture">Transformer</span>
+                        <span class="tag type">VQ-VAE</span>
+                        <span class="tag year">2023</span>
+                    </div>
+                </div>
+
+                <div class="model-content">
+                    <div class="architecture-section">
+                        <h4>🔧 핵심 구조 및 기술</h4>
+                        <ul>
+                            <li><strong>3D 비디오 토크나이저</strong> - 영상 클립을 3D 벡터 양자화로 시공간 토큰 시퀀스로 압축</li>
+                            <li><strong>마스킹된 토큰 예측 Transformer</strong> - 양방향 Transformer가 다양한 패턴의 [MASK] 토큰을 채우도록 학습</li>
+                            <li><strong>다중태스크 학습</strong> - 10가지 이상의 영상 생성 태스크를 랜덤 혼합 학습</li>
+                            <li><strong>비자기회귀적 토큰 생성</strong> - 모든 토큰을 병렬로 예측하여 속도 혁신</li>
+                        </ul>
+                    </div>
+
+                    <div class="performance-section">
+                        <h4>📊 생성 품질 및 평가</h4>
+                        <ul>
+                            <li><strong>Kinetics-600</strong>: FVD 9.9 (2023년 CVPR 등장 당시 최고 성능)</li>
+                            <li><strong>UCF-101</strong>: FVD ~76 (동시대 모델 대비 우수)</li>
+                            <li><strong>속도 혁신</strong>: 확산 모델 대비 100배, Autoregressive 모델 대비 60배 빠름</li>
+                        </ul>
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ 장점</h4>
+                            <ul>
+                                <li><strong>범용성</strong>: 단일 모델로 영상 생성, 연장, 보간, 부분변환 등 10가지 과제</li>
+                                <li><strong>효율성</strong>: 매우 빠른 추론 속도로 실시간에 가까운 생성</li>
+                                <li><strong>병렬 처리</strong>: 토큰 시퀀스 변환으로 연산량 대폭 감소</li>
+                                <li><strong>실용성</strong>: 거대 확산모델과 견줄 품질, 월등한 추론 속도</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ 단점</h4>
+                            <ul>
+                                <li>VQ-토큰화로 인한 세부 화질 제한 (확산 모델 대비 덜 섬세)</li>
+                                <li>토큰 양자화로 인한 디테일 손실 및 부자연스러운 패턴 가능성</li>
+                                <li>1세대는 텍스트 조건 직접 처리 불가</li>
+                                <li>훈련 복잡도가 높고 대규모 데이터 학습 시 자원 소모</li>
+                                <li>코드북 크기, 토큰 길이 등 하이퍼파라미터 설정 복잡</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="applications">
+                        <h4>🎯 조건 및 활용 환경</h4>
+                        <ul>
+                            <li><strong>무조건 생성</strong>과 <strong>클래스 조건 생성</strong> 모두 지원</li>
+                            <li><strong>부분적 조건</strong>: 첫 몇 프레임 제공해 계속 생성, 영상 일부분 채우기</li>
+                            <li><strong>영상 이어붙이기</strong>, <strong>배경 고정 + 움직임 생성</strong> 등 응용</li>
+                            <li><strong>해상도</strong>: 256² 정도로 시작, 별도 VQ 모델로 업샘플링 가능</li>
+                            <li>조건 마스크를 활용한 임의 조건 영상 생성 프레임워크</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="model-card detailed">
+                <div class="model-header">
+                    <h3>StyleSV (Style-based Video Synthesis)</h3>
+                    <div class="model-tags">
+                        <span class="tag architecture">GAN</span>
+                        <span class="tag type">StyleGAN 기반</span>
+                        <span class="tag year">2023</span>
+                    </div>
+                </div>
+
+                <div class="model-content">
+                    <div class="architecture-section">
+                        <h4>🔧 핵심 구조 및 기술</h4>
+                        <ul>
+                            <li><strong>StyleGAN3 기반 2단계 학습</strong> - 이미지 생성 후 비디오로 파인튜닝</li>
+                            <li><strong>Alias-free 합성</strong> - 연속 프레임 간 텍스처 고정 현상 해결</li>
+                            <li><strong>Temporal Shift Module (TSM)</strong> - 판별기에 시간적 변화 판별 능력 부여</li>
+                            <li><strong>B-스플라인 기반 모션 표현</strong> - 무한 길이 영상 생성 가능</li>
+                            <li><strong>저랭크 시간 변조</strong> - 장시간 생성 시 주기적 반복 문제 완화</li>
+                        </ul>
+                    </div>
+
+                    <div class="performance-section">
+                        <h4>📊 생성 품질 및 평가</h4>
+                        <ul>
+                            <li><strong>Sky Time-lapse</strong>: FVD 221.5 (StyleGAN-V 460.6 대비 절반 이하)</li>
+                            <li><strong>Taichi-HD</strong>: FVD16, FVD128 모두 대폭 개선</li>
+                            <li><strong>First-person Driving</strong>: 짧은/긴 구간 일관성 모두 향상</li>
+                            <li><strong>무한 길이 생성</strong>: 수천 프레임 이어붙여도 자연스러운 연속성</li>
+                        </ul>
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ 장점</h4>
+                            <ul>
+                                <li><strong>높은 시각적 품질</strong>: Alias-free 생성기로 개별 프레임 해상도와 선명도 우수</li>
+                                <li><strong>시간적 안정성</strong>: TSM 판별기로 물체 움직임 일관성 확보</li>
+                                <li><strong>무한 길이 생성</strong>: 앞뒤 부분 질감/배경 연속성 유지</li>
+                                <li><strong>빠른 추론</strong>: GAN 특성상 실시간 프레임 생성</li>
+                                <li><strong>고해상도 지원</strong>: 256×256~512×512까지 확장 가능</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ 단점</h4>
+                            <ul>
+                                <li><strong>비조건부 생성</strong>: 텍스트/라벨 조건 생성 미지원</li>
+                                <li><strong>제한적 다양성</strong>: 특정 분야 데이터셋에 한정</li>
+                                <li><strong>학습 불안정성</strong>: GAN 특유의 세심한 튜닝 필요</li>
+                                <li><strong>모션 붕괴 위험</strong>: 경우에 따라 부자연스러운 움직임</li>
+                                <li><strong>잔여 주기 패턴</strong>: 아주 긴 생성 시 완전히 해결되지 않음</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="applications">
+                        <h4>🎯 조건 및 활용 환경</h4>
+                        <ul>
+                            <li><strong>무조건 영상 생성</strong>: 길이 조절 가능한 자연 풍경, 패턴 월페이퍼</li>
+                            <li><strong>가상 타임랩스</strong>: 하늘, 구름, 자연 현상 등 무한 재생</li>
+                            <li><strong>VR/엔터테인먼트</strong>: 배경 영상 합성, 24fps 고품질 출력</li>
+                            <li><strong>해상도</strong>: 256~512px 수준, 양질의 영상 생성</li>
+                            <li><strong>제한사항</strong>: 텍스트 설명이나 카테고리 레이블 제어 불가</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="model-card detailed">
+                <div class="model-header">
+                    <h3>Make-A-Video vs CogVideo</h3>
+                    <div class="model-tags">
+                        <span class="tag architecture">Diffusion vs Transformer</span>
+                        <span class="tag type">Text-to-Video</span>
+                        <span class="tag year">2022</span>
+                    </div>
+                </div>
+
+                <div class="model-content">
+                    <div class="architecture-section">
+                        <h4>🔧 핵심 구조 및 기술 비교</h4>
+                        <div class="comparison-split">
+                            <div class="comparison-left">
+                                <h5>Make-A-Video (Meta AI)</h5>
+                                <ul>
+                                    <li><strong>확산 모델 기반</strong> - 사전 학습된 이미지 확산 모델 활용</li>
+                                    <li><strong>시공간 확산 구조</strong> - Pseudo-3D Conv + Temporal Attention</li>
+                                    <li><strong>계단식 생성 파이프라인</strong> - 64×64 → 256×768 → 프레임 보간</li>
+                                    <li><strong>텍스트-비디오 페어 불필요</strong> - 이미지+동영상 데이터로 분리 학습</li>
+                                </ul>
+                            </div>
+                            <div class="comparison-right">
+                                <h5>CogVideo (Tsinghua)</h5>
+                                <ul>
+                                    <li><strong>Transformer 기반</strong> - 9억 파라미터 거대 모델</li>
+                                    <li><strong>Autoregressive 생성</strong> - 한글자씩 영상 그리기</li>
+                                    <li><strong>다단계 학습</strong> - 멀티프레임레이트 전략</li>
+                                    <li><strong>사전학습 활용</strong> - CogView2 고정 + Temporal Attention 추가</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="performance-section">
+                        <h4>📊 생성 품질 및 평가</h4>
+                        <ul>
+                            <li><strong>인간 평가</strong>: Make-A-Video 80% 선호도 vs CogVideo 20%</li>
+                            <li><strong>MSR-VTT</strong>: Make-A-Video FVD 크게 감소</li>
+                            <li><strong>UCF-101 전이학습</strong>: Make-A-Video 월등히 낮은 FVD</li>
+                            <li><strong>언어 지원</strong>: Make-A-Video 영어 기반, CogVideo 중국어 최적화</li>
+                        </ul>
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Make-A-Video 장점</h4>
+                            <ul>
+                                <li><strong>훈련 효율성</strong>: 텍스트-비디오 페어 데이터 불필요</li>
+                                <li><strong>창의적 다양성</strong>: 방대한 이미지-캡션 데이터 활용</li>
+                                <li><strong>고해상도 출력</strong>: 768×768까지 단계적 생성</li>
+                                <li><strong>다양한 응용</strong>: 이미지 애니메이션, 초해상도 등</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ 공통 단점</h4>
+                            <ul>
+                                <li><strong>짧은 영상</strong>: 몇 초 분량만 생성 가능</li>
+                                <li><strong>내러티브 한계</strong>: 장면 전환, 긴 상호작용 어려움</li>
+                                <li><strong>해상도 트레이드오프</strong>: 복잡한 장면에서 품질 저하</li>
+                                <li><strong>후처리 필요</strong>: 안정화, 보정 등 추가 작업</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="applications">
+                        <h4>🎯 조건 및 활용 환경</h4>
+                        <ul>
+                            <li><strong>Make-A-Video</strong>: 영어 자연어 설명으로 다양한 스타일 영상 생성</li>
+                            <li><strong>CogVideo</strong>: 중국어 기반, 번역기 거쳐 영어 입력도 가능</li>
+                            <li><strong>적용 분야</strong>: 예술, 광고, 배경 영상 등 제한적 용도</li>
+                            <li><strong>현재 상태</strong>: 연구 목적 공개, 오픈소스 제공</li>
+                            <li><strong>품질 편차</strong>: 후처리 작업 필요, 사실적 인물/긴 대화 장면 어려움</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="model-card detailed">
+                <div class="model-header">
+                    <h3>TGAN-F (Temporal GAN-Fast)</h3>
+                    <div class="model-tags">
+                        <span class="tag architecture">GAN</span>
+                        <span class="tag type">경량 GAN</span>
+                        <span class="tag year">2019</span>
+                    </div>
+                </div>
+                <div class="model-content">
+                    <div class="architecture-section">
+                        <h4>🔧 핵심 구조 및 기술</h4>
+                        <ul>
+                            <li>LDVD(저차원 비디오 판별기)로 3D Conv 대신 2D+1D 분리합성곱 사용</li>
+                            <li>단일 GPU 환경에서도 안정적 학습</li>
+                            <li>프레임별+시계열 특징 결합, 구조 단순화</li>
+                        </ul>
+                    </div>
+                    <div class="performance-section">
+                        <h4>📊 생성 품질 및 평가</h4>
+                        <ul>
+                            <li>UCF-101(128x128, 16f) IS: 24~25 (TGAN: 11, MoCoGAN: 12)</li>
+                            <li>FVD 기준 TGAN 대비 절반 이하</li>
+                            <li>경량 구성 대비 우수, 이후 대형 모델에 비해선 낮음</li>
+                        </ul>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ 장점</h4>
+                            <ul>
+                                <li>경량화, 안정화, 단일 GPU 학습 가능</li>
+                                <li>모드 붕괴 감소, GAN 훈련 효율성</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ 단점</h4>
+                            <ul>
+                                <li>고해상도/장기 영상 확장성 제한</li>
+                                <li>조건부 생성 미지원, GAN 한계 존재</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="applications">
+                        <h4>🎯 조건 및 활용 환경</h4>
+                        <ul>
+                            <li>무조건 생성, 단일 도메인 영상 합성</li>
+                            <li>실시간성, 교육/실험용 경량 GAN</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="model-card detailed">
+                <div class="model-header">
+                    <h3>TGANv2</h3>
+                    <div class="model-tags">
+                        <span class="tag architecture">GAN</span>
+                        <span class="tag type">Progressive GAN</span>
+                        <span class="tag year">2020</span>
+                    </div>
+                </div>
+                <div class="model-content">
+                    <div class="architecture-section">
+                        <h4>🔧 핵심 구조 및 기술</h4>
+                        <ul>
+                            <li>Progressive Growing(점진적 성장) 기법 도입</li>
+                            <li>다중 generator 구조로 메모리 분산</li>
+                            <li>해상도/프레임 길이 점진적 증가</li>
+                        </ul>
+                    </div>
+                    <div class="performance-section">
+                        <h4>📊 생성 품질 및 평가</h4>
+                        <ul>
+                            <li>UCF-101(128x128, 16f) IS: 28.87 (DVD-GAN: 27.3, VideoGPT: 24.7)</li>
+                            <li>FVD 수백 대 후반 (동시대 GAN 중 선도)</li>
+                            <li>복잡한 분포, 얼굴 영상 등에서 선명도 향상</li>
+                        </ul>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ 장점</h4>
+                            <ul>
+                                <li>스케일 확장성, 고해상도 합성 가능</li>
+                                <li>병렬 학습, 대용량 데이터 적용 용이</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ 단점</h4>
+                            <ul>
+                                <li>구조 복잡, 튜닝 난이도 높음</li>
+                                <li>조건부 생성 미지원, 최신 SOTA 대비 품질 한계</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="applications">
+                        <h4>🎯 조건 및 활용 환경</h4>
+                        <ul>
+                            <li>무조건 생성, 대규모 데이터셋 합성</li>
+                            <li>실시간 응용, 단일 도메인에 유리</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="model-card detailed">
+                <div class="model-header">
+                    <h3>Imagen (정적 프레임 baseline)</h3>
+                    <div class="model-tags">
+                        <span class="tag architecture">Diffusion</span>
+                        <span class="tag type">이미지 기반</span>
+                        <span class="tag year">2022</span>
+                    </div>
+                </div>
+                <div class="model-content">
+                    <div class="architecture-section">
+                        <h4>🔧 핵심 구조 및 기술</h4>
+                        <ul>
+                            <li>초고화질 텍스트-투-이미지 확산 모델</li>
+                            <li>영상 생성 연구에서 baseline(정지영상)으로 사용</li>
+                            <li>단일 이미지 반복(6프레임 등)으로 영상처럼 취급</li>
+                        </ul>
+                    </div>
+                    <div class="performance-section">
+                        <h4>📊 생성 품질 및 평가</h4>
+                        <ul>
+                            <li>COCO FID 7.27, 인간 평가에서 실제 이미지와 동등</li>
+                            <li>FVD 등 영상 평가지표에서는 매우 낮은 점수</li>
+                            <li>정지화면 화질은 최고, 모션은 전혀 없음</li>
+                        </ul>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ 장점</h4>
+                            <ul>
+                                <li>정지 프레임 화질 최고, 텍스트 일치도 우수</li>
+                                <li>추론 속도 빠름, 영상 데이터 없이도 사용 가능</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ 단점</h4>
+                            <ul>
+                                <li>모션/시간 일관성 전혀 없음</li>
+                                <li>실제 영상 생성에는 부적합, baseline 용도</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="applications">
+                        <h4>🎯 조건 및 활용 환경</h4>
+                        <ul>
+                            <li>정지화면이 허용되는 영상(슬라이드쇼 등)</li>
+                            <li>연구적 baseline, 영상 생성의 하한선 실험</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="model-card detailed">
+                <div class="model-header">
+                    <h3>PG-SWGAN-3D (Progressive Growing Sliced Wasserstein GAN-3D)</h3>
+                    <div class="model-tags">
+                        <span class="tag architecture">GAN</span>
+                        <span class="tag type">Progressive GAN</span>
+                        <span class="tag year">2019</span>
+                    </div>
+                </div>
+                <div class="model-content">
+                    <div class="architecture-section">
+                        <h4>🔧 핵심 구조 및 기술</h4>
+                        <ul>
+                            <li><strong>Progressive Growing GAN</strong> - 공간+시간 3D 네트워크 점진적 확대</li>
+                            <li><strong>Sliced Wasserstein GAN 손실</strong> - 고차원 영상 분포 간 거리 효율적 계산</li>
+                            <li><strong>저해상도-짧은 영상에서 고해상도-긴 영상으로 부드러운 학습</strong></li>
+                            <li><strong>무작위 판별 함수(슬라이스)들의 평균으로 Wasserstein 거리 근사</strong></li>
+                        </ul>
+                    </div>
+                    <div class="performance-section">
+                        <h4>📊 생성 품질 및 평가</h4>
+                        <ul>
+                            <li><strong>TrailerFaces 데이터셋</strong>: 사용자 선호도 90% 이상 (VGAN, MoCoGAN 대비)</li>
+                            <li><strong>FID 비교</strong>: PG-WGAN-3D 402 vs PG-SWGAN-3D 404 (근사치)</li>
+                            <li><strong>사용자 평가</strong>: SWGAN 적용 시 54% vs 46% 선호도</li>
+                            <li><strong>시간적 자연스러움</strong>: SWGAN이 더 높은 점수</li>
+                        </ul>
+                    </div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ 장점</h4>
+                            <ul>
+                                <li><strong>안정적 고해상도 영상 합성</strong>: Progressive Growing + SW 손실 조합</li>
+                                <li><strong>복잡한 표정 변화 포착</strong>: 눈 깜빡임, 입꼬리 움직임 등 자연스러움</li>
+                                <li><strong>구현 간단</strong>: 별도 판별망 튜닝 없이 적용 가능</li>
+                                <li><strong>학습 안정성</strong>: 모드 다양성 유지, 그래디언트 안정적 전달</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ 단점</h4>
+                            <ul>
+                                <li><strong>아키텍처 혁신 부족</strong>: 손실함수 수준 개선에 머물러</li>
+                                <li><strong>Progressive Growing 복잡성</strong>: 해상도 단계별 잠재적 불안정성</li>
+                                <li><strong>정량적 개선 미미</strong>: FID 개선폭이 크지 않음</li>
+                                <li><strong>도메인 제한</strong>: 얼굴 등 제한된 도메인에서만 검증</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="applications">
+                        <h4>🎯 조건 및 활용 환경</h4>
+                        <ul>
+                            <li><strong>비지도 영상 생성</strong>: 특정 도메인 데이터셋 학습 후 유사 영상 무한 생성</li>
+                            <li><strong>VR 아바타 얼굴 애니메이션</strong>: 셀카, 배우 클로즈업 영상 기반</li>
+                            <li><strong>디지털 캐릭터 표정 합성</strong>: 256×256 해상도, 1~2초 분량</li>
+                            <li><strong>실시간성</strong>: GAN 기반으로 빠른 추론, Progressive 구조로 다소 복잡</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section id="technical-comparison">
+            <h2>기술적 비교 분석</h2>
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>W.A.LT</th>
+                            <th>MAGVIT</th>
+                            <th>StyleSV</th>
+                            <th>Make-A-Video</th>
+                            <th>CogVideo</th>
+                            <th>TGAN-F</th>
+                            <th>TGANv2</th>
+                            <th>PG-SWGAN-3D</th>
+                            <th>Imagen(정적)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Transformer 확산</td>
+                            <td>VQ-VAE + Transformer</td>
+                            <td>StyleGAN3 기반</td>
+                            <td>확산 모델</td>
+                            <td>Transformer</td>
+                            <td>LDVD GAN</td>
+                            <td>Progressive GAN</td>
+                            <td>Progressive 3D GAN</td>
+                            <td>Diffusion(이미지)</td>
+                        </tr>
+                        <tr>
+                            <td>50-step DDIM</td>
+                            <td>비자기회귀 토큰</td>
+                            <td>GAN 생성</td>
+                            <td>계단식 확산</td>
+                            <td>Autoregressive</td>
+                            <td>2D+1D 분리합성곱</td>
+                            <td>Progressive Growing</td>
+                            <td>Sliced W 손실</td>
+                            <td>정적 프레임 반복</td>
+                        </tr>
+                        <tr>
+                            <td>중간</td>
+                            <td>매우 빠름</td>
+                            <td>매우 빠름</td>
+                            <td>느림</td>
+                            <td>느림</td>
+                            <td>빠름</td>
+                            <td>빠름</td>
+                            <td>빠름</td>
+                            <td>매우 빠름</td>
+                        </tr>
+                        <tr>
+                            <td>별도 파이프라인</td>
+                            <td>1세대 미지원</td>
+                            <td>미지원</td>
+                            <td>지원</td>
+                            <td>지원</td>
+                            <td>미지원</td>
+                            <td>미지원</td>
+                            <td>미지원</td>
+                            <td>지원(이미지)</td>
+                        </tr>
+                        <tr>
+                            <td>128→고해상도</td>
+                            <td>256²</td>
+                            <td>256~512²</td>
+                            <td>768²</td>
+                            <td>256²</td>
+                            <td>128²</td>
+                            <td>192²+</td>
+                            <td>256²</td>
+                            <td>최고(이미지)</td>
+                        </tr>
+                        <tr>
+                            <td>제한적</td>
+                            <td>제한적</td>
+                            <td>무한</td>
+                            <td>짧음</td>
+                            <td>짧음</td>
+                            <td>짧음</td>
+                            <td>짧음~중간</td>
+                            <td>짧음</td>
+                            <td>정지</td>
+                        </tr>
+                        <tr>
+                            <td>SOTA 성능</td>
+                            <td>다중태스크</td>
+                            <td>시간적 안정성</td>
+                            <td>창의적 다양성</td>
+                            <td>세밀한 묘사</td>
+                            <td>경량/안정성</td>
+                            <td>스케일 확장성</td>
+                            <td>얼굴 표정 합성</td>
+                            <td>정지화면 화질</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="latest-trends">
+            <h2>최신 동향 및 위치</h2>
+            <div class="trends-grid">
+                <div class="trend-card">
+                    <h4>확산 모델의 부상</h4>
+                    <ul>
+                        <li>W.A.LT, Make-A-Video 등 Transformer 기반 확산 모델이 SOTA 달성</li>
+                        <li>텍스트-비디오 생성에서 혁신적 성능 향상</li>
+                        <li>다양한 조건부 생성 능력 확보</li>
+                    </ul>
+                </div>
+                <div class="trend-card">
+                    <h4>GAN의 진화</h4>
+                    <ul>
+                        <li>StyleSV로 GAN 기반 영상 생성의 새로운 가능성 제시</li>
+                        <li>무한 길이 영상 생성과 시간적 안정성 개선</li>
+                        <li>특정 도메인에서 여전히 강력한 성능</li>
+                    </ul>
+                </div>
+                <div class="trend-card">
+                    <h4>속도 vs 품질 트레이드오프</h4>
+                    <ul>
+                        <li>MAGVIT의 초고속 추론 vs W.A.LT의 최고 품질</li>
+                        <li>실용적 응용을 위한 속도 최적화 모델 등장</li>
+                        <li>다목적 모델의 필요성 증가</li>
+                    </ul>
+                </div>
+                <div class="trend-card">
+                    <h4>PG-SWGAN-3D의 위치</h4>
+                    <ul>
+                        <li>2019년 TrailerFaces 벤치마크 SOTA, 영상 GAN 기준 모델</li>
+                        <li>고해상도 영상도 GAN으로 가능하다는 증명</li>
+                        <li>Wasserstein 대안손실의 효과 입증</li>
+                        <li>현재는 StyleGAN-V, StyleSV 등에 대체되었으나 특정 응용에서 참고 가치</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="model-summary">
+            <h2>주요 모델 성능 및 특성 요약</h2>
+            <div class="summary-table-container">
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>모델 (연도)</th>
+                            <th>핵심 기법</th>
+                            <th>조건 유형</th>
+                            <th>출력 해상도 / 길이</th>
+                            <th>대표 성능 (지표)</th>
+                            <th>강점</th>
+                            <th>약점</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>W.A.LT-L/XL (2023)</strong></td>
+                            <td>Transformer 기반 잠재 확산<br/>+ 이미지+영상 공동학습</td>
+                            <td>클래스 조건부, 무조건<br/>(+텍스트 파이프라인)</td>
+                            <td>128×128 기본<br/>+ 3단계 업샘 (최종 고해상도)</td>
+                            <td>FVD 36 @UCF101 (W.A.LT-XL)<br/>FVD 3.3 @K600 (W.A.LT-L)</td>
+                            <td>SOTA 품질 (영상·이미지 생성)<br/>Transformer로 표현력 우수<br/>다양한 조건 대응 가능</td>
+                            <td>추론속도 느림 (확산 50스텝)<br/>고메모리 요구 (Transformer)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MAGVIT (2023)</strong></td>
+                            <td>VQ-GAN 기반 3D 토큰화<br/>+ 마스크 토큰 예측 Transformer</td>
+                            <td>무조건, 클래스조건<br/>+ 부분조건 (영상완성 등)</td>
+                            <td>256×256 (기본)<br/>최대 수초 (16프레임)</td>
+                            <td>FVD 9.9 @K600<br/>(SOTA at 2022)<br/>추론 100× 빨라 (vs 확산)</td>
+                            <td>다목적 영상 생성 (하나로 10태스크)<br/>속도 매우 빠름 (병렬 디코딩)</td>
+                            <td>디테일 손실 (VQ 양자화)<br/>텍스트 조건 미지원</td>
+                        </tr>
+                        <tr>
+                            <td><strong>StyleSV (2023)</strong></td>
+                            <td>StyleGAN3 기반 영상 합성<br/>+ TSM 판별기 & B-스플라인 모션</td>
+                            <td>무조건 (프레임 자율발생)</td>
+                            <td>256×256 (@128프레임+)<br/>무한 길이 가능</td>
+                            <td>FVD128 221.5 (StyleSV) vs 460.6 (StyleGAN-V)<br/>(SkyTimelapse 데이터)</td>
+                            <td>프레임 품질 높고<br/>모션 가장 부드러움<br/>무한장 생성 가능</td>
+                            <td>조건 제어 불가<br/>도메인 한정</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Make-A-Video (2022)</strong></td>
+                            <td>텍스트-이미지 확산 → 시공간 확장<br/>+ 영상전용 파이프라인 (보간+초해상)</td>
+                            <td>텍스트 조건부</td>
+                            <td>768×768 @ ~16fps<br/>(4초 내외 클립)</td>
+                            <td>인간 선호도 82% vs CogVideo<br/>FVD 대폭 개선 (vs 이전)</td>
+                            <td>텍스트-비디오 SOTA (시점)<br/>텍스트 대응력 우수 (대규모 이미지 학습)</td>
+                            <td>긴 내러티브 생성 어려움<br/>공개 모델 접근 제한</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CogVideo (2022)</strong></td>
+                            <td>거대 Transformer AR 모델<br/>+ CogView2 지식 상속</td>
+                            <td>텍스트 조건부 (중문 기반)</td>
+                            <td>480×480↓ (추정)<br/>32프레임 (4초)</td>
+                            <td>9B 모델로 당시 공개모델 중 최상<br/>텍스트-영상 SOTA ('22.5)</td>
+                            <td>거대 사전학습으로 초기 돌파<br/>오픈소스 공개 (접근 용이)</td>
+                            <td>중국어 한정 (영어↓)<br/>추론 느림 (AR 생성)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TGAN-F (2019)</strong></td>
+                            <td>개선된 저차원 3D 판별기<br/>(LSTM 없이 GAN 학습)</td>
+                            <td>무조건</td>
+                            <td>128×128 @ 16프레임</td>
+                            <td>IS ≈ 24 (@UCF101)<br/>(TGAN 대비 2×↑)</td>
+                            <td>간단 구조로 안정 훈련<br/>경량 (단일 GPU 학습)</td>
+                            <td>저해상도 위주<br/>조건부 확장 제한</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TGANv2 (2020)</strong></td>
+                            <td>Progressive GAN (영상에 적용)<br/>+ 다중 서브생성기 구조</td>
+                            <td>무조건</td>
+                            <td>192×192까지 보고<br/>16~48프레임 등</td>
+                            <td>IS 28.87 (@UCF101)<br/>(당시 1위)</td>
+                            <td>해상도/용량 scaling 우수<br/>대규모 데이터 학습 가능</td>
+                            <td>구현 복잡 (PG 단계 다수)<br/>최신 대비 질↓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PG-SWGAN-3D (2019)</strong></td>
+                            <td>Progressive 3D GAN<br/>+ Sliced W 손실</td>
+                            <td>무조건</td>
+                            <td>256×256 @ ~128프레임<br/>(TrailerFaces)</td>
+                            <td>FID 5.5 (LSUN 256px 이미지)<br/>FID_v (영상) ~402 (동급비교)</td>
+                            <td>안정적 학습 (W손실)<br/>표정묘사 등 향상</td>
+                            <td>도메인 제한 (얼굴 등)<br/>큰 향상은 아님</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Imagen (baseline) (2022)</strong></td>
+                            <td>텍스트→이미지 확산<br/>+ (영상화: 동일 프레임 반복)</td>
+                            <td>텍스트 조건부</td>
+                            <td>→ 영상 256×256 x N프레임<br/>(정지영상)</td>
+                            <td>COCO FID 7.27 (이미지 품질)<br/>FVD 매우 나쁨 (정지영상)</td>
+                            <td>프레임당 화질 최고<br/>복잡 장면 묘사 우수</td>
+                            <td>모션 부재 (정지영상)<br/>영상으로 부적합</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 비디오 생성 모델 비교 분석. 최신 연구 동향을 반영한 포괄적인 분석 자료입니다.</p>
+        </footer>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html> 
