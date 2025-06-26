@@ -1,0 +1,10 @@
+opencv-python
+numpy
+moviepy
+torch
+torchvision
+mtcnn
+openai-whisper
+pyaudio
+ffmpeg-python
+tqdm 
