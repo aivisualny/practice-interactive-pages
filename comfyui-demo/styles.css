@@ -1,0 +1,532 @@
+/* ComfyUI 데모 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1a1a1a;
+    color: #e0e0e0;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.comfyui-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* 헤더 */
+.comfyui-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: #2a2a2a;
+    border-bottom: 1px solid #404040;
+    min-height: 60px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-left h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #4CAF50;
+}
+
+.version {
+    background: #404040;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+.header-right {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-primary {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #45a049;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #555;
+    color: #e0e0e0;
+}
+
+.btn-secondary:hover {
+    background: #666;
+    transform: translateY(-1px);
+}
+
+/* 메인 컨텐츠 */
+.main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* 사이드바 */
+.sidebar {
+    width: 280px;
+    background: #2a2a2a;
+    border-right: 1px solid #404040;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+.sidebar-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    color: #4CAF50;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.node-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.category h4 {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.node-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #333;
+    border: 1px solid #404040;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    cursor: grab;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.node-item:hover {
+    background: #404040;
+    border-color: #4CAF50;
+    transform: translateY(-1px);
+}
+
+.node-item:active {
+    cursor: grabbing;
+}
+
+.node-item i {
+    color: #4CAF50;
+    width: 16px;
+}
+
+/* 캔버스 영역 */
+.canvas-area {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.canvas-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #1e1e1e;
+    background-image: 
+        radial-gradient(circle at 25px 25px, #333 2px, transparent 2px),
+        radial-gradient(circle at 75px 75px, #333 2px, transparent 2px);
+    background-size: 100px 100px;
+}
+
+.canvas-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.drop-hint {
+    text-align: center;
+    color: #666;
+    pointer-events: none;
+}
+
+.drop-hint i {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    color: #4CAF50;
+}
+
+.drop-hint p {
+    font-size: 1.1rem;
+}
+
+/* 우측 패널 */
+.right-panel {
+    width: 320px;
+    background: #2a2a2a;
+    border-left: 1px solid #404040;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+.panel-section {
+    margin-bottom: 24px;
+}
+
+.panel-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    color: #4CAF50;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.node-properties {
+    background: #333;
+    border-radius: 6px;
+    padding: 16px;
+    min-height: 200px;
+}
+
+.no-selection {
+    color: #666;
+    text-align: center;
+    font-style: italic;
+}
+
+.result-area {
+    background: #333;
+    border-radius: 6px;
+    padding: 16px;
+    min-height: 300px;
+}
+
+.placeholder-result {
+    text-align: center;
+    color: #666;
+    padding: 40px 20px;
+}
+
+.placeholder-result i {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    color: #4CAF50;
+}
+
+/* 상태바 */
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px;
+    background: #2a2a2a;
+    border-top: 1px solid #404040;
+    font-size: 0.85rem;
+    color: #aaa;
+}
+
+.status-right {
+    display: flex;
+    gap: 20px;
+}
+
+/* 노드 스타일 */
+.canvas-node {
+    position: absolute;
+    background: #333;
+    border: 2px solid #404040;
+    border-radius: 8px;
+    min-width: 200px;
+    cursor: move;
+    user-select: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+}
+
+.canvas-node:hover {
+    border-color: #4CAF50;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.canvas-node.selected {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
+}
+
+.node-header {
+    background: #404040;
+    padding: 8px 12px;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.node-header i {
+    color: #4CAF50;
+    margin-right: 6px;
+}
+
+.node-close {
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.node-close:hover {
+    background: #555;
+    color: #fff;
+}
+
+.node-content {
+    padding: 12px;
+}
+
+.node-input, .node-output {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+}
+
+.node-input:last-child, .node-output:last-child {
+    margin-bottom: 0;
+}
+
+.input-label, .output-label {
+    color: #ccc;
+}
+
+.input-socket, .output-socket {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.input-socket {
+    background: #4CAF50;
+}
+
+.output-socket {
+    background: #2196F3;
+}
+
+.input-socket:hover, .output-socket:hover {
+    transform: scale(1.2);
+    border-color: #fff;
+}
+
+/* 연결선 */
+.connection-line {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.connection-line svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* 모달 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #2a2a2a;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #404040;
+}
+
+.modal-header h3 {
+    color: #4CAF50;
+    margin: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.close-btn:hover {
+    background: #555;
+    color: #fff;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+/* 폼 요소 */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: #ccc;
+    font-weight: 500;
+}
+
+.form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 8px 12px;
+    background: #333;
+    border: 1px solid #404040;
+    border-radius: 4px;
+    color: #e0e0e0;
+    font-size: 0.9rem;
+}
+
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* 반응형 */
+@media (max-width: 1200px) {
+    .sidebar {
+        width: 240px;
+    }
+    
+    .right-panel {
+        width: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+    }
+    
+    .sidebar, .right-panel {
+        width: 100%;
+        height: 200px;
+    }
+    
+    .canvas-area {
+        height: 400px;
+    }
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.canvas-node {
+    animation: fadeIn 0.3s ease;
+}
+
+/* 스크롤바 스타일 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #404040;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+} 
