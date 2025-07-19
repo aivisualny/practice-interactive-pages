@@ -1,0 +1,9 @@
+@echo off
+echo 이미지 to PDF 변환기 GUI 버전을 시작합니다...
+echo.
+echo 필요한 패키지를 설치합니다...
+pip install -r requirements.txt
+echo.
+echo GUI를 실행합니다...
+python gui_converter.py
+pause 
