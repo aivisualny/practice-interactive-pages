@@ -1,0 +1,2 @@
+# PyPDF2만 설치하면 됩니다. (tkinter는 Python 내장)
+PyPDF2 
