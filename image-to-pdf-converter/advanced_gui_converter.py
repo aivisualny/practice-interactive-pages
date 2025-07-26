@@ -38,7 +38,15 @@ TRANSLATIONS = {
         "file_types": "이미지/PDF (*.jpg *.jpeg *.png *.pdf)",
         "pdf_files": "PDF Files (*.pdf)",
         "korean": "한국어",
-        "english": "English"
+        "english": "English",
+        "select_pages": "페이지 선택",
+        "select_all": "전체 선택",
+        "deselect_all": "전체 해제",
+        "page_range": "페이지 범위",
+        "apply": "적용",
+        "cancel": "취소",
+        "total_pages": "총 {0}페이지",
+        "selected_pages": "선택된 페이지: {0}"
     },
     "en": {
         "window_title": "PDF Converter",
@@ -68,7 +76,15 @@ TRANSLATIONS = {
         "file_types": "Images/PDF (*.jpg *.jpeg *.png *.pdf)",
         "pdf_files": "PDF Files (*.pdf)",
         "korean": "한국어",
-        "english": "English"
+        "english": "English",
+        "select_pages": "Select Pages",
+        "select_all": "Select All",
+        "deselect_all": "Deselect All",
+        "page_range": "Page Range",
+        "apply": "Apply",
+        "cancel": "Cancel",
+        "total_pages": "Total {0} pages",
+        "selected_pages": "Selected pages: {0}"
     }
 }
 
@@ -83,13 +99,14 @@ class ThumbnailWidget(QFrame):
             QFrame {
                 background-color: white;
                 border: 3px solid #e0e0e0;
-                border-radius: 12px;
-                padding: 12px;
-                margin: 6px;
+                border-radius: 16px;
+                padding: 16px;
+                margin: 8px;
             }
             QFrame:hover {
                 border: 3px solid #2196F3;
                 background-color: #f8f9fa;
+                transform: scale(1.02);
             }
             QFrame:selected {
                 border: 3px solid #1976D2;
@@ -98,17 +115,22 @@ class ThumbnailWidget(QFrame):
         """)
         
         layout = QVBoxLayout()
-        layout.setSpacing(8)
-        layout.setContentsMargins(12, 12, 12, 12)
+        layout.setSpacing(12)
+        layout.setContentsMargins(16, 16, 16, 16)
         
-        # 썸네일 이미지
+        # 썸네일 이미지 - 크게 증가
         self.icon_label = QLabel()
-        self.icon_label.setPixmap(icon.pixmap(QSize(140, 180)))
+        self.icon_label.setPixmap(icon.pixmap(QSize(280, 360)))  # 2배 크기로 증가
         self.icon_label.setAlignment(Qt.AlignCenter)
-        self.icon_label.setStyleSheet("background-color: transparent;")
+        self.icon_label.setStyleSheet("""
+            QLabel {
+                background-color: transparent;
+                border-radius: 8px;
+            }
+        """)
         layout.addWidget(self.icon_label)
         
-        # 파일명
+        # 파일명 - 더 큰 폰트
         self.text_label = QLabel(text)
         self.text_label.setAlignment(Qt.AlignCenter)
         self.text_label.setWordWrap(True)
@@ -116,22 +138,24 @@ class ThumbnailWidget(QFrame):
             QLabel {
                 background-color: transparent;
                 color: #212121;
-                font-size: 12px;
+                font-size: 16px;
                 font-weight: 600;
                 font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
-                padding: 6px;
+                padding: 8px;
                 line-height: 1.4;
             }
         """)
         layout.addWidget(self.text_label)
         
         self.setLayout(layout)
-        self.setFixedSize(160, 220)
+        self.setFixedSize(320, 440)  # 크기 증가
         self.setAcceptDrops(True)
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.parent().select_thumbnail(self)
+            # 클릭 시 바로 미리보기 표시
+            self.parent().preview_thumbnail(self)
         elif event.button() == Qt.RightButton:
             self.parent().show_context_menu(event.globalPos(), self)
         super().mousePressEvent(event)
@@ -151,13 +175,13 @@ class ThumbnailGrid(QWidget):
         self.dragged_thumbnail = None
         
         self.layout = QGridLayout()
-        self.layout.setSpacing(12)
-        self.layout.setContentsMargins(20, 20, 20, 20)
+        self.layout.setSpacing(20)  # 간격 증가
+        self.layout.setContentsMargins(32, 32, 32, 32)  # 여백 증가
         self.setLayout(self.layout)
         
         self.setStyleSheet("""
             QWidget {
-                background-color: #fafafa;
+                background-color: #f5f5f5;
                 border: none;
             }
         """)
@@ -181,8 +205,8 @@ class ThumbnailGrid(QWidget):
         for i in reversed(range(self.layout.count())):
             self.layout.itemAt(i).widget().setParent(None)
         
-        # 새로운 레이아웃으로 배치
-        cols = max(1, self.width() // 180)
+        # 새로운 레이아웃으로 배치 - 더 큰 썸네일에 맞게 조정
+        cols = max(1, self.width() // 360)  # 썸네일 너비(320) + 간격(40)에 맞춤
         for i, thumbnail in enumerate(self.thumbnails):
             row = i // cols
             col = i % cols
@@ -379,50 +403,102 @@ class PreviewDialog(QDialog):
     def __init__(self, pixmap, title, parent=None):
         super().__init__(parent)
         self.setWindowTitle(title)
-        self.setMinimumSize(800, 1000)
+        self.setMinimumSize(1200, 1400)  # 크기 증가
+        self.resize(1400, 1600)  # 기본 크기 설정
         self.setStyleSheet("""
             QDialog {
-                background-color: #fafafa;
+                background-color: #f5f5f5;
                 font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
             }
         """)
         layout = QVBoxLayout()
-        layout.setContentsMargins(24, 24, 24, 24)
+        layout.setContentsMargins(32, 32, 32, 32)  # 여백 증가
         
+        # 제목 라벨 추가
+        title_label = QLabel(title)
+        title_label.setAlignment(Qt.AlignCenter)
+        title_label.setStyleSheet("""
+            QLabel {
+                color: #212121;
+                font-size: 20px;
+                font-weight: 700;
+                padding: 16px;
+                background-color: white;
+                border: 2px solid #e0e0e0;
+                border-radius: 12px;
+                margin-bottom: 16px;
+            }
+        """)
+        layout.addWidget(title_label)
+        
+        # 이미지 라벨
         label = QLabel()
-        label.setPixmap(pixmap.scaled(1000, 1200, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        # 더 큰 크기로 스케일링
+        scaled_pixmap = pixmap.scaled(1200, 1400, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        label.setPixmap(scaled_pixmap)
         label.setAlignment(Qt.AlignCenter)
-        label.setStyleSheet("background-color: white; border: 3px solid #e0e0e0; border-radius: 12px; padding: 16px;")
+        label.setStyleSheet("""
+            QLabel {
+                background-color: white; 
+                border: 3px solid #e0e0e0; 
+                border-radius: 16px; 
+                padding: 24px;
+            }
+        """)
         layout.addWidget(label)
         
         self.setLayout(layout)
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.language = "ko"
-        self.setWindowTitle(self.tr("window_title"))
-        self.setGeometry(100, 100, 1400, 900)
-        self.setMinimumSize(1000, 700)
-
-        # 설정값
-        self.pdf_dpi = 200
-        self.page_size = "A4"
-        self.img_quality = 90
-
-        # 스타일 설정
+class PageSelectionDialog(QDialog):
+    def __init__(self, pdf_path, parent=None):
+        super().__init__(parent)
+        self.pdf_path = pdf_path
+        self.parent = parent
+        self.language = parent.language if parent else "ko"
+        
+        # PDF 페이지 수 확인
+        try:
+            from pdf2image import convert_from_path
+            pages = convert_from_path(pdf_path, first_page=1, last_page=1, dpi=70)
+            self.total_pages = len(pages)
+        except:
+            self.total_pages = 1
+        
+        self.setWindowTitle(self.tr("select_pages"))
+        self.setMinimumSize(600, 500)
+        self.resize(800, 600)
         self.setStyleSheet("""
-            QMainWindow {
-                background-color: #fafafa;
+            QDialog {
+                background-color: #f5f5f5;
                 font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            }
+            QLabel {
+                font-weight: 600;
+                color: #212121;
+                font-size: 16px;
+                padding: 8px 0;
+            }
+            QSpinBox, QComboBox {
+                padding: 16px;
+                border: 3px solid #e0e0e0;
+                border-radius: 12px;
+                background-color: white;
+                font-size: 16px;
+                font-weight: 500;
+                color: #212121;
+                min-height: 24px;
+            }
+            QSpinBox:focus, QComboBox:focus {
+                border-color: #2196F3;
+                outline: none;
             }
             QPushButton {
                 padding: 16px 32px;
                 border: 3px solid #2196F3;
-                border-radius: 10px;
+                border-radius: 12px;
                 background-color: #2196F3;
                 color: white;
-                font-weight: 600;
+                font-weight: 700;
                 font-size: 16px;
                 min-height: 24px;
             }
@@ -433,19 +509,159 @@ class MainWindow(QMainWindow):
             QPushButton:pressed {
                 background-color: #1565C0;
             }
+            QCheckBox {
+                font-size: 16px;
+                font-weight: 500;
+                color: #212121;
+                spacing: 12px;
+            }
+            QCheckBox::indicator {
+                width: 24px;
+                height: 24px;
+                border: 3px solid #e0e0e0;
+                border-radius: 6px;
+                background-color: white;
+            }
+            QCheckBox::indicator:checked {
+                background-color: #2196F3;
+                border-color: #2196F3;
+            }
+            QScrollArea {
+                border: 3px solid #e0e0e0;
+                border-radius: 12px;
+                background-color: white;
+            }
+        """)
+
+        layout = QVBoxLayout()
+        layout.setSpacing(20)
+        layout.setContentsMargins(32, 32, 32, 32)
+
+        # 파일명 표시
+        filename_label = QLabel(f"파일: {os.path.basename(pdf_path)}")
+        filename_label.setStyleSheet("font-size: 18px; font-weight: 700; color: #1976D2;")
+        layout.addWidget(filename_label)
+
+        # 총 페이지 수 라벨
+        total_pages_label = QLabel(self.tr("total_pages").format(self.total_pages))
+        layout.addWidget(total_pages_label)
+
+        # 페이지 선택 방식
+        selection_layout = QHBoxLayout()
+        
+        # 전체 선택/해제 버튼
+        button_layout = QVBoxLayout()
+        select_all_btn = QPushButton(self.tr("select_all"))
+        select_all_btn.clicked.connect(self.select_all_pages)
+        button_layout.addWidget(select_all_btn)
+        
+        deselect_all_btn = QPushButton(self.tr("deselect_all"))
+        deselect_all_btn.clicked.connect(self.deselect_all_pages)
+        button_layout.addWidget(deselect_all_btn)
+        
+        selection_layout.addLayout(button_layout)
+        
+        # 페이지 체크박스 영역
+        scroll_area = QScrollArea()
+        scroll_widget = QWidget()
+        self.checkbox_layout = QVBoxLayout()
+        scroll_widget.setLayout(self.checkbox_layout)
+        
+        # 체크박스 생성
+        self.page_checkboxes = []
+        for i in range(1, self.total_pages + 1):
+            checkbox = QCheckBox(f"페이지 {i}")
+            checkbox.setChecked(True)  # 기본적으로 모든 페이지 선택
+            self.page_checkboxes.append(checkbox)
+            self.checkbox_layout.addWidget(checkbox)
+        
+        scroll_area.setWidget(scroll_widget)
+        scroll_area.setWidgetResizable(True)
+        selection_layout.addWidget(scroll_area)
+        
+        layout.addLayout(selection_layout)
+
+        # 버튼
+        button_layout = QHBoxLayout()
+        button_layout.addStretch()
+        self.apply_btn = QPushButton(self.tr("apply"))
+        self.apply_btn.clicked.connect(self.accept)
+        button_layout.addWidget(self.apply_btn)
+        self.cancel_btn = QPushButton(self.tr("cancel"))
+        self.cancel_btn.clicked.connect(self.reject)
+        button_layout.addWidget(self.cancel_btn)
+        layout.addLayout(button_layout)
+
+        self.setLayout(layout)
+
+    def tr(self, key):
+        return TRANSLATIONS[self.language].get(key, key)
+
+    def select_all_pages(self):
+        for checkbox in self.page_checkboxes:
+            checkbox.setChecked(True)
+
+    def deselect_all_pages(self):
+        for checkbox in self.page_checkboxes:
+            checkbox.setChecked(False)
+
+    def get_selected_pages(self):
+        selected = []
+        for i, checkbox in enumerate(self.page_checkboxes):
+            if checkbox.isChecked():
+                selected.append(i + 1)
+        return selected
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.language = "ko"
+        self.setWindowTitle(self.tr("window_title"))
+        self.setGeometry(100, 100, 1600, 1000)  # 윈도우 크기 증가
+        self.setMinimumSize(1200, 800)  # 최소 크기 증가
+
+        # 설정값
+        self.pdf_dpi = 200
+        self.page_size = "A4"
+        self.img_quality = 90
+
+        # 스타일 설정
+        self.setStyleSheet("""
+            QMainWindow {
+                background-color: #f5f5f5;
+                font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            }
+            QPushButton {
+                padding: 20px 40px;
+                border: 3px solid #2196F3;
+                border-radius: 12px;
+                background-color: #2196F3;
+                color: white;
+                font-weight: 700;
+                font-size: 18px;
+                min-height: 30px;
+            }
+            QPushButton:hover {
+                background-color: #1976D2;
+                border-color: #1976D2;
+                transform: scale(1.05);
+            }
+            QPushButton:pressed {
+                background-color: #1565C0;
+            }
             QProgressBar {
                 border: 3px solid #e0e0e0;
-                border-radius: 10px;
+                border-radius: 12px;
                 text-align: center;
-                font-weight: 600;
-                font-size: 14px;
+                font-weight: 700;
+                font-size: 16px;
                 color: #212121;
                 background-color: white;
-                min-height: 24px;
+                min-height: 30px;
             }
             QProgressBar::chunk {
                 background-color: #2196F3;
-                border-radius: 7px;
+                border-radius: 9px;
             }
         """)
 
@@ -455,14 +671,14 @@ class MainWindow(QMainWindow):
             QMenuBar {
                 background-color: #1976D2;
                 color: white;
-                font-weight: 600;
-                font-size: 14px;
+                font-weight: 700;
+                font-size: 16px;
                 font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
-                padding: 8px;
+                padding: 12px;
             }
             QMenuBar::item {
-                padding: 8px 16px;
-                border-radius: 6px;
+                padding: 12px 20px;
+                border-radius: 8px;
             }
             QMenuBar::item:selected {
                 background-color: #1565C0;
@@ -478,12 +694,12 @@ class MainWindow(QMainWindow):
         
         # 메인 레이아웃
         main_layout = QVBoxLayout()
-        main_layout.setSpacing(20)
-        main_layout.setContentsMargins(24, 24, 24, 24)
+        main_layout.setSpacing(24)
+        main_layout.setContentsMargins(32, 32, 32, 32)
         
         # 상단 버튼 영역
         button_layout = QHBoxLayout()
-        button_layout.setSpacing(16)
+        button_layout.setSpacing(20)
         
         self.add_btn = QPushButton(self.tr("add_files"))
         self.add_btn.clicked.connect(self.add_files)
@@ -503,18 +719,18 @@ class MainWindow(QMainWindow):
         scroll_area.setStyleSheet("""
             QScrollArea {
                 border: 3px solid #e0e0e0;
-                border-radius: 12px;
+                border-radius: 16px;
                 background-color: white;
             }
             QScrollBar:vertical {
                 background-color: #f0f0f0;
-                width: 16px;
-                border-radius: 8px;
+                width: 20px;
+                border-radius: 10px;
             }
             QScrollBar::handle:vertical {
                 background-color: #c0c0c0;
-                border-radius: 8px;
-                min-height: 20px;
+                border-radius: 10px;
+                min-height: 30px;
             }
             QScrollBar::handle:vertical:hover {
                 background-color: #a0a0a0;
@@ -558,7 +774,7 @@ class MainWindow(QMainWindow):
             if ext in [".jpg", ".jpeg", ".png"]:
                 try:
                     img = Image.open(file)
-                    img.thumbnail((140, 180))
+                    img.thumbnail((280, 360))  # 썸네일 크기 증가
                     thumb_path = file + "_thumb.png"
                     img.save(thumb_path)
                     icon = QIcon(thumb_path)
@@ -568,13 +784,25 @@ class MainWindow(QMainWindow):
                     pass
             elif ext == ".pdf":
                 try:
-                    pages = convert_from_path(file, dpi=70)
-                    for i, page in enumerate(pages):
-                        page.thumbnail((140, 180))
-                        thumb_path = f"{file}_thumb_{i+1}.png"
+                    # PDF 파일을 하나의 항목으로 처리
+                    # 첫 번째 페이지만 썸네일로 사용
+                    pages = convert_from_path(file, first_page=1, last_page=1, dpi=70)
+                    if pages:
+                        page = pages[0]
+                        page.thumbnail((280, 360))  # 썸네일 크기 증가
+                        thumb_path = f"{file}_thumb.png"
                         page.save(thumb_path)
                         icon = QIcon(thumb_path)
-                        self.thumbnail_grid.add_thumbnail(icon, f"{os.path.basename(file)} ({i+1}p)", (file, i+1))
+                        
+                        # PDF 페이지 수 확인
+                        try:
+                            all_pages = convert_from_path(file, dpi=70)
+                            page_count = len(all_pages)
+                            display_name = f"{os.path.basename(file)} ({page_count}페이지)"
+                        except:
+                            display_name = f"{os.path.basename(file)}"
+                        
+                        self.thumbnail_grid.add_thumbnail(icon, display_name, (file, "pdf"))
                         os.remove(thumb_path)
                 except Exception as e:
                     pass
@@ -591,18 +819,36 @@ class MainWindow(QMainWindow):
                 pixmap = QPixmap(file)
                 dlg = PreviewDialog(pixmap, os.path.basename(file), self)
                 dlg.exec_()
-            elif ext == ".pdf" and page is not None:
-                pages = convert_from_path(file, first_page=page, last_page=page, dpi=150)
-                if pages:
-                    img = pages[0]
-                    temp_path = f"{file}_preview_{page}.png"
-                    img.save(temp_path)
-                    pixmap = QPixmap(temp_path)
-                    dlg = PreviewDialog(pixmap, f"{os.path.basename(file)} ({page}p)", self)
-                    dlg.exec_()
-                    os.remove(temp_path)
-                else:
-                    QMessageBox.warning(self, self.tr("preview_error"), self.tr("pdf_page_error"))
+            elif ext == ".pdf":
+                if page == "pdf":
+                    # PDF 파일인 경우 페이지 선택 창 표시
+                    dlg = PageSelectionDialog(file, self)
+                    if dlg.exec_() == QDialog.Accepted:
+                        selected_pages = dlg.get_selected_pages()
+                        if selected_pages:
+                            # 선택된 첫 번째 페이지 미리보기
+                            pages = convert_from_path(file, first_page=selected_pages[0], last_page=selected_pages[0], dpi=150)
+                            if pages:
+                                img = pages[0]
+                                temp_path = f"{file}_preview_{selected_pages[0]}.png"
+                                img.save(temp_path)
+                                pixmap = QPixmap(temp_path)
+                                dlg = PreviewDialog(pixmap, f"{os.path.basename(file)} (페이지 {selected_pages[0]})", self)
+                                dlg.exec_()
+                                os.remove(temp_path)
+                elif page is not None:
+                    # 개별 페이지 미리보기 (기존 방식)
+                    pages = convert_from_path(file, first_page=page, last_page=page, dpi=150)
+                    if pages:
+                        img = pages[0]
+                        temp_path = f"{file}_preview_{page}.png"
+                        img.save(temp_path)
+                        pixmap = QPixmap(temp_path)
+                        dlg = PreviewDialog(pixmap, f"{os.path.basename(file)} ({page}p)", self)
+                        dlg.exec_()
+                        os.remove(temp_path)
+                    else:
+                        QMessageBox.warning(self, self.tr("preview_error"), self.tr("pdf_page_error"))
             else:
                 QMessageBox.warning(self, self.tr("preview_error"), self.tr("preview_error_msg"))
         except Exception as e:
@@ -620,45 +866,93 @@ class MainWindow(QMainWindow):
         if not thumbnails_data:
             QMessageBox.warning(self, self.tr("convert_error"), self.tr("convert_no_files"))
             return
+
+        # 변환할 이미지와 PDF 페이지들을 수집
+        images = []
+        temp_files = []
+        total_items = 0
+        
+        # 먼저 총 아이템 수 계산
+        for file, page in thumbnails_data:
+            ext = os.path.splitext(file)[1].lower()
+            if ext in [".jpg", ".jpeg", ".png"]:
+                total_items += 1
+            elif ext == ".pdf":
+                if page == "pdf":
+                    # PDF 파일인 경우 페이지 선택 창 표시
+                    dlg = PageSelectionDialog(file, self)
+                    if dlg.exec_() == QDialog.Accepted:
+                        selected_pages = dlg.get_selected_pages()
+                        total_items += len(selected_pages)
+                        # 선택된 페이지들을 임시로 저장
+                        temp_files.append((file, selected_pages))
+                    else:
+                        continue  # 취소된 경우 건너뛰기
+                elif page is not None:
+                    total_items += 1
+        
+        if total_items == 0:
+            QMessageBox.warning(self, self.tr("convert_error"), self.tr("convert_no_images"))
+            return
+
         save_path, _ = QFileDialog.getSaveFileName(self, self.tr("save_pdf"), "output.pdf", self.tr("pdf_files"))
         if not save_path:
             return
-        images = []
-        temp_files = []
-        total = len(thumbnails_data)
+
         self.progress_bar.setValue(0)
+        current_item = 0
+        
         try:
-            for idx, (file, page) in enumerate(thumbnails_data):
+            for file, page in thumbnails_data:
                 ext = os.path.splitext(file)[1].lower()
                 if ext in [".jpg", ".jpeg", ".png"]:
+                    # 이미지 파일 처리
                     img = Image.open(file).convert("RGB")
                     img = self.resize_to_page(img)
                     images.append(img)
-                elif ext == ".pdf" and page is not None:
-                    pages = convert_from_path(file, first_page=page, last_page=page, dpi=self.pdf_dpi)
-                    if pages:
-                        img = pages[0].convert("RGB")
-                        img = self.resize_to_page(img)
-                        temp_path = f"{file}_convert_{page}.jpg"
-                        img.save(temp_path, quality=self.img_quality)
-                        images.append(Image.open(temp_path).convert("RGB"))
-                        temp_files.append(temp_path)
-                self.progress_bar.setValue(int((idx + 1) / total * 100))
-                QApplication.processEvents()
+                    current_item += 1
+                    self.progress_bar.setValue(int(current_item / total_items * 100))
+                    QApplication.processEvents()
+                    
+                elif ext == ".pdf":
+                    if page == "pdf":
+                        # PDF 파일에서 선택된 페이지들 처리
+                        for temp_file, selected_pages in temp_files:
+                            if temp_file == file:
+                                for page_num in selected_pages:
+                                    pages = convert_from_path(file, first_page=page_num, last_page=page_num, dpi=self.pdf_dpi)
+                                    if pages:
+                                        img = pages[0].convert("RGB")
+                                        img = self.resize_to_page(img)
+                                        images.append(img)
+                                        current_item += 1
+                                        self.progress_bar.setValue(int(current_item / total_items * 100))
+                                        QApplication.processEvents()
+                                break
+                    elif page is not None:
+                        # 개별 페이지 처리 (기존 방식)
+                        pages = convert_from_path(file, first_page=page, last_page=page, dpi=self.pdf_dpi)
+                        if pages:
+                            img = pages[0].convert("RGB")
+                            img = self.resize_to_page(img)
+                            images.append(img)
+                            current_item += 1
+                            self.progress_bar.setValue(int(current_item / total_items * 100))
+                            QApplication.processEvents()
+
             if not images:
                 QMessageBox.warning(self, self.tr("convert_error"), self.tr("convert_no_images"))
                 self.progress_bar.setValue(0)
                 return
+
+            # PDF 저장
             images[0].save(save_path, save_all=True, append_images=images[1:], quality=self.img_quality)
             QMessageBox.information(self, self.tr("convert_error"), f"{self.tr('convert_success')}: {save_path}")
             self.progress_bar.setValue(100)
+            
         except Exception as e:
             QMessageBox.warning(self, self.tr("convert_error"), str(e))
             self.progress_bar.setValue(0)
-        finally:
-            for f in temp_files:
-                if os.path.exists(f):
-                    os.remove(f)
 
     def resize_to_page(self, img):
         if self.page_size == "A4":
