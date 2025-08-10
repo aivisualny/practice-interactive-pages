@@ -32,9 +32,18 @@ class EnglishQuizGenerator:
                                font=("Arial", 16, "bold"))
         title_label.grid(row=0, column=0, columnspan=3, pady=(0, 20))
         
+        # 제목 입력 프레임
+        title_input_frame = ttk.LabelFrame(main_frame, text="시험지 제목", padding="10")
+        title_input_frame.grid(row=1, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
+        
+        ttk.Label(title_input_frame, text="시험지 제목:").grid(row=0, column=0, sticky=tk.W, padx=(0, 5))
+        self.title_entry = ttk.Entry(title_input_frame, width=50)
+        self.title_entry.grid(row=0, column=1, padx=(0, 10))
+        self.title_entry.insert(0, "영어 단어 시험지")  # 기본값 설정
+        
         # 입력 프레임
         input_frame = ttk.LabelFrame(main_frame, text="단어 입력", padding="10")
-        input_frame.grid(row=1, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
+        input_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
         
         # 영어 단어 입력
         ttk.Label(input_frame, text="영어 단어:").grid(row=0, column=0, sticky=tk.W, padx=(0, 5))
@@ -52,7 +61,7 @@ class EnglishQuizGenerator:
         
         # 단어 목록 프레임
         list_frame = ttk.LabelFrame(main_frame, text="입력된 단어 목록", padding="10")
-        list_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        list_frame.grid(row=3, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         
         # 트리뷰 생성
         columns = ("영어 단어", "한글 뜻")
@@ -73,7 +82,7 @@ class EnglishQuizGenerator:
         
         # 버튼 프레임
         button_frame = ttk.Frame(main_frame)
-        button_frame.grid(row=3, column=0, columnspan=3, pady=(10, 0))
+        button_frame.grid(row=4, column=0, columnspan=3, pady=(10, 0))
         
         # 삭제 버튼
         delete_btn = ttk.Button(button_frame, text="선택된 단어 삭제", command=self.delete_word)
@@ -97,7 +106,7 @@ class EnglishQuizGenerator:
         
         # 그리드 가중치 설정
         main_frame.columnconfigure(0, weight=1)
-        main_frame.rowconfigure(2, weight=1)
+        main_frame.rowconfigure(3, weight=1)
         list_frame.columnconfigure(0, weight=1)
         list_frame.rowconfigure(0, weight=1)
         
@@ -246,8 +255,12 @@ class EnglishQuizGenerator:
         )
         
         # === 시험지 페이지 (1-2페이지) ===
-        # 제목 추가
-        title = Paragraph("영어 단어 시험지", title_style)
+        # 제목 추가 (사용자 입력 제목 사용)
+        quiz_title = self.title_entry.get().strip()
+        if not quiz_title:
+            quiz_title = "영어 단어 시험지"  # 기본값
+        
+        title = Paragraph(quiz_title, title_style)
         story.append(title)
         story.append(Spacer(1, 20))
         
